@@ -4,8 +4,6 @@
 # 
 # apt-get update
 # pip install beautifulsoup4
-#
-
 
 from bs4 import BeautifulSoup
 import urllib
@@ -16,23 +14,51 @@ list_of_urls = [
 ]
 
 for i in list_of_urls:
-
 	print "scrapping this ...", i
 
-	req = urllib2.Request(i, headers={'User-Agent' : "Magic Browser"}) 
-	con = urllib2.urlopen( req )
+	#req = urllib2.Request(i, headers={'User-Agent' : "Magic Browser"}) 
+	#con = urllib2.urlopen( req )
+	#full_text = con.read()
+	full_text = open("a.html","r+").read()
 
-	full_text = con.read()
 
 	soup = BeautifulSoup(full_text, 'html.parser')
 
-	for j in soup.findAll("div", { "class" : "summoner-matches panel" }):
+	for j in soup.findAll("div", { "class" :["matches-match", "matches-match-win", "matches-row"] })[1:6]:
+		print j.getText().replace("\n\n\n\n\n"," ").replace("\n\n"," ").replace("\n"," ")
 
-		for k in j:
+	print "\n" * 3
 
-			print k.findAll("div", {"":""})
+	print "dates :\n"
+	for j in soup.findAll("small", { "class" :["matches-match-time"] })[0:5]:
+
+		stupid = False
+		tmp = ""
+		final_str = []
+
+		for letra in str(j):
+			if letra == '"' and stupid == True: stupid = False; final_str.append(tmp); tmp = ""
+			if letra == '"' and stupid == False:stupid = True;
+
+			if stupid == True:
+				tmp = tmp + letra
+
+		print "","",final_str[2]
 
 
-
-
-
+	#for j in k.findAll("div", { "class" : "matches-match-loss","" }):
+	#	print j.getText().replace(" ", "").replace("\n", "")
+	#
+	#for jo in soup.findAll("div", { "class" : "summoner-matches panel" }):
+	#
+	#	for k in jo:
+	#
+	#		#print k.findAll("div", {"class":"matches-match matches-match-win matches-row"})
+	#
+	#		#for j in soup.findAll("div", { "class" : "matches-match-win" }):
+	#		for j in k.findAll("div", { "class" : "matches-match-win" }):
+	#			print j.getText().replace(" ", "").replace("\n", "")
+	#
+	#		#for j in soup.findAll("div", { "class" : "matches-match-loss" }):
+	#		for j in k.findAll("div", { "class" : "matches-match-loss" }):
+	#			print j.getText().replace(" ", "").replace("\n", "")
