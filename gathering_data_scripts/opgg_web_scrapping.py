@@ -1,7 +1,4 @@
-# 
-# class that contains the rest of the divs
-# panel-body match
-# 
+#
 # apt-get update
 # pip install beautifulsoup4
 
@@ -21,9 +18,9 @@ lista_fechas   = []
 
 for i in list_of_urls:
 
-	print "scrapping this ...", i, 
+	print "scrapping this ...", i,
 
-	req = urllib2.Request(i, headers={'User-Agent' : "Magic Browser"}) 
+	req = urllib2.Request(i, headers={'User-Agent' : "Magic Browser"})
 	con = urllib2.urlopen( req )
 
 	full_text = con.read()
@@ -32,15 +29,8 @@ for i in list_of_urls:
 
 	print "\n" * 3
 	for match in ( soup.findAll("div", { "class" :["GameItemWrap"] }) ):
+		match_data = ("".join((match.getText()).split()))
 
-		#print match.getText().replace("\n"," ").replace(" ","")
-		print ("".join((match.getText()).split()))[0:90]
+		print match_data
 
-	#match_info = j.getText().replace("\n\n\n\n\n"," ").replace("\n\n"," ").replace("\n"," ")
-	#lista_elements = str_list = filter(None, match_info.split(" "))
-	#lista_partidas.append([lista_elements[0]])
-
-	#print len(full_text)
-	#a = open("a.html","w")
-	#a.write(full_text)
-	#a.close()
+		#match_data[0:90]
